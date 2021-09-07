@@ -1,8 +1,8 @@
-package gocommandlineshoppingapp
+package main
 
 type product struct {
 	id int
 	name string
-	price float32
+	price float64
 	quantity int
 }

@@ -1,4 +1,4 @@
-package gocommandlineshoppingapp
+package main
 
 import (
 	"encoding/csv"
@@ -13,7 +13,27 @@ func main() {
 	password := flag.String("password", "", "Enter your password!")
 	flag.Parse()
 
+
 	loginUser(*username, *password, "users.csv")
+	getProducts("products.csv")
+}
+
+func getProducts(productFile string) [][]string {
+	productCSV, err := os.Open(*&productFile)
+	if err != nil {
+		fmt.Printf("Unable to read %s file", productFile)
+	}
+
+	r := csv.NewReader(productCSV)
+	products, err := r.ReadAll()
+	if err != nil {
+		fmt.Printf("Enable to parse %s", productFile)
+	}
+	for _, p := range products {
+		fmt.Println(p[1])
+	}
+
+	return products
 }
 
 
