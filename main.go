@@ -5,7 +5,15 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
 )
+
+type product struct {
+	id int
+	name string
+	price float64
+	quantity int
+}
 
 
 func main() {
@@ -15,25 +23,39 @@ func main() {
 
 
 	loginUser(*username, *password, "users.csv")
-	getProducts("products.csv")
+	listOfProducts := getProducts("products.csv")
+
+	
 }
 
-func getProducts(productFile string) [][]string {
+func getProducts(productFile string) []product {
+	
 	productCSV, err := os.Open(*&productFile)
 	if err != nil {
 		fmt.Printf("Unable to read %s file", productFile)
 	}
 
 	r := csv.NewReader(productCSV)
-	products, err := r.ReadAll()
+	lines, err := r.ReadAll()
 	if err != nil {
 		fmt.Printf("Enable to parse %s", productFile)
 	}
-	for _, p := range products {
-		fmt.Println(p[1])
+	items := make([]product, len(lines))
+	for i, line := range lines {
+		id, _ := strconv.Atoi(line[0])
+		name := line[1]
+		price, _ := strconv.ParseFloat(line[2], 64)
+		quantity, _ := strconv.Atoi(line[3])
+
+		items[i] = product{
+			id,
+			name,
+			price,
+			quantity,
+		}
 	}
 
-	return products
+	return items
 }
 
 
