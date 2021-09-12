@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 )
 
 func main() {
@@ -13,7 +14,8 @@ func main() {
 	if loginUser(*username, *password, "users.csv") {
 		listOfProducts := getProducts("products.csv")
 		displayProducts(listOfProducts)
-		selectProducts(selectItems(), listOfProducts)
+		total := makeInvoice(selectProducts(selectItems("Select the items of your choice separeted by '-'"), listOfProducts))
+		fmt.Printf("total coast: $%.2f\n",total)
 	}
 }
 

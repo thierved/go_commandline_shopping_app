@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 	"strconv"
 )
 
@@ -20,6 +22,8 @@ func displayProducts(items []product) {
 	for _, item := range items {
 		fmt.Printf("%-3d %-20s $%-9.1f %-8d\n", item.id, item.name, item.price, item.quantity)
 	}
+	fmt.Println("============================================")
+	fmt.Println()
 }
 
 func getProducts(productFile string) []product {
@@ -38,7 +42,7 @@ func getProducts(productFile string) []product {
 	return items
 }
 
-func selectProducts(selectedItems []string, productList []product) {
+func selectProducts(selectedItems []string, productList []product) []product{
 	pickedItems := []product{}
 	for _, i := range selectedItems {
 		for _, j := range productList {
@@ -46,6 +50,19 @@ func selectProducts(selectedItems []string, productList []product) {
 				pickedItems = append(pickedItems, j)
 			}
 		} 
-	}	
-	displayProducts(pickedItems)
+	}
+	return pickedItems
+}
+
+func makeInvoice(items []product) float64{
+	total := 0.0
+	for _, item := range items {
+		total += item.price
+	}
+	cmd := exec.Command("clear")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
+	fmt.Println("Here is your invoice:")
+	displayProducts(items)
+	return total
 }

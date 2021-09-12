@@ -22,8 +22,9 @@ func readCSV(file string) [][]string {
 	return lines
 }
 
-func selectItems() []string {
+func selectItems(message string) []string {
 	var input string 
+	fmt.Println(message)
 	fmt.Scanf("%s\n", &input)
 	return strings.Split(input, "-")
 }
