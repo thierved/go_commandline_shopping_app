@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 	// "strings"
 )
@@ -27,4 +28,10 @@ func selectItems(message string) []string {
 	fmt.Println(message)
 	fmt.Scanf("%s\n", &input)
 	return strings.Split(input, "-")
+}
+
+func clearScreen() {
+	cmd := exec.Command("clear")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
 }

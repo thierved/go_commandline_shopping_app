@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"os/exec"
 	"strconv"
 )
 
@@ -54,15 +52,13 @@ func selectProducts(selectedItems []string, productList []product) []product{
 	return pickedItems
 }
 
-func makeInvoice(items []product) float64{
+func makeInvoice(items []product, client user) float64{
 	total := 0.0
 	for _, item := range items {
 		total += item.price
 	}
-	cmd := exec.Command("clear")
-	cmd.Stdout = os.Stdout
-	cmd.Run()
-	fmt.Println("Here is your invoice:")
+	clearScreen()
+	fmt.Println("Here is your invoice - name:", client.name)
 	displayProducts(items)
 	return total
 }
